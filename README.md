@@ -27,20 +27,15 @@ A clean, scalable E-Commerce Web API built with **ASP.NET Core**, featuring user
 
 1. **Clone the repository**
 
-   ```bash
-   git clone https://github.com/HossamHassan999/ECommerce-API.git
-   cd ECommerce-API
-Restore packages
-
 bash
-Copy
-Edit
+git clone https://github.com/HossamHassan999/ECommerce-API.git
+cd ECommerce-API
+
+
+2.Restore packages
 dotnet restore
-Configure secrets (instead of appsettings.json)
 
-bash
-Copy
-Edit
+3.Configure secrets (instead of appsettings.json)
 dotnet user-secrets init
 dotnet user-secrets set "SmtpSettings:Host" "smtp.gmail.com"
 dotnet user-secrets set "SmtpSettings:Port" "587"
@@ -48,28 +43,14 @@ dotnet user-secrets set "SmtpSettings:EnableSsl" "true"
 dotnet user-secrets set "SmtpSettings:Username" "your_email@gmail.com"
 dotnet user-secrets set "SmtpSettings:Password" "your_app_password"
 dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=.;Database=ECommerceDB;Trusted_Connection=True;TrustServerCertificate=True;"
-Apply migrations & create the database
 
-bash
-Copy
-Edit
-dotnet ef database update
-Run the application
 
-bash
-Copy
-Edit
+4.Apply migrations & create database
 dotnet run
-Visit the API at:
 
-http://localhost:5000
-
-https://localhost:5001
 
 🧱 Project Structure
-java
-Copy
-Edit
+
 /Controllers     → API endpoints (Products, Orders, Auth, etc.)
 /Services        → Business logic (OrderService, EmailService, etc.)
 /Data            → Entities & DbContext
@@ -77,21 +58,24 @@ Edit
 /Interfaces      → Interfaces for dependency injection
 /Mappings        → AutoMapper configuration
 /Middlewares     → Custom middleware (e.g., error handling, JWT validation)
+
+
 📬 Invoice Email on Order
-When a user places an order, they receive a professional HTML invoice email containing:
+When a user places an order, they receive a professional HTML invoice email including:
 
-🆔 Order ID & Date
+Order ID & Date
 
-📦 Product list with quantity, unit price, and total per item
+Product list with quantity, unit price, and subtotal
 
-💰 Grand total for the entire order
+Grand total
 
 🔐 Authentication
-JWT-based authentication & authorization
+JWT-based access
 
-Role-based access control (Admin / User)
+Role claims (User / Admin)
 
-Passwords are securely hashed using BCrypt or similar algorithms
+Passwords are hashed (e.g., BCrypt)
+
 
 📡 API Endpoints Overview
 Method	Endpoint	Description
@@ -103,6 +87,8 @@ GET	/api/products	Get all products
 POST	/api/auth/register	Register a new user
 POST	/api/auth/login	Login and receive JWT
 
+
+
 🧪 Testing (coming soon)
 ✅ Unit testing with xUnit
 
@@ -111,15 +97,15 @@ POST	/api/auth/login	Login and receive JWT
 🔌 Integration tests (planned)
 
 📈 Roadmap
-PDF invoice attachment support
+ PDF invoice attachment support
 
-Product reviews & ratings
+ Product reviews & ratings
 
-Stripe or PayPal payment integration
+ Stripe or PayPal payment integration
 
-Admin dashboard & analytics
+ Admin dashboard & analytics
 
-Swagger/OpenAPI documentation
+ Swagger/OpenAPI documentation
 
 🤝 Contributing
 Contributions are welcome!
