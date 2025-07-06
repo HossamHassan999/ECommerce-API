@@ -11,11 +11,13 @@ namespace WebApplication_API.Services
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
-        public OrderService(ApplicationDbContext context , IMapper mapper  , IEmailService emailService)
+        private readonly IInvoiceBuilderService _invoiceBuilder;
+        public OrderService(ApplicationDbContext context , IMapper mapper  , IEmailService emailService , IInvoiceBuilderService invoiceBuilder)
         {
             _context = context;
             _mapper = mapper;
             _emailService = emailService;
+            _invoiceBuilder = invoiceBuilder;
         }
 
 
@@ -45,26 +47,9 @@ namespace WebApplication_API.Services
             return _mapper.Map<OrderDTO>(orderbyid);
         }
 
-        private string GenerateInvoiceHtml(Order order, List<OrderItem> items, User user)
-        {
-            var sb = new StringBuilder();
 
-            sb.AppendLine($"<h2>Hi {user.Name},</h2>");
-            sb.AppendLine($"<p>Thanks for your order #{order.Id}!</p>");
-            sb.AppendLine("<h3>Order Details:</h3>");
-            sb.AppendLine("<table border='1' cellpadding='5'><tr><th>Product</th><th>Qty</th><th>Price</th></tr>");
 
-            foreach (var item in items)
-            {
-                sb.AppendLine($"<tr><td>{item.Product.Name}</td><td>{item.Quantity}</td><td>{item.Price:C}</td></tr>");
-            }
 
-            var total = items.Sum(i => i.Quantity * i.Price);
-            sb.AppendLine($"</table><p><strong>Total: {total:C}</strong></p>");
-            sb.AppendLine("<p>We will contact you once your order is shipped.</p>");
-
-            return sb.ToString();
-        }
 
 
         public async Task<OrderDTO?> CreateAsync(OrderDTOPost order)
@@ -101,7 +86,8 @@ namespace WebApplication_API.Services
 
             if (user != null)
             {
-                string html = GenerateInvoiceHtml(newOrder, orderItems, user);
+                string html = _invoiceBuilder.BuildInvoiceHtml(newOrder, orderItems, user);
+
                 await _emailService.SendInvoiceEmailAsync(
                     user.Email,
                     $"Order Confirmation - Order #{newOrder.Id}",

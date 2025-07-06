@@ -22,6 +22,7 @@ builder.Services.AddScoped<ICartItemService, CartItemService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderItemService, OrderItemService>();
 
+builder.Services.AddScoped<IInvoiceBuilderService, InvoiceBuilderService>();
 
 
 builder.Services.AddAuthentication("Bearer")

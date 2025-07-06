@@ -37,7 +37,8 @@ namespace WebApplication_API.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var created = await _orderService.CreateAsync(order);
-            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+
+            return Ok(created);
         }
 
 
